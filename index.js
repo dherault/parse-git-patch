@@ -1,7 +1,7 @@
 const hashRegex = /^From (\S*)/
-const authorRegex = /^From: (.*) <(.*)>$/
-const fileNameRegex = /^diff --git a\/(\S*) b\/(\S*)$/
-const fileLinesRegex = /^@@ -(\S*),?\S* \+(\S*),?/
+const authorRegex = /^From:\s?([^<].*[^>])?\s+(<(.*)>)?/
+const fileNameRegex = /^diff --git a\/(\S*)\s*b\/(\S*)/
+const fileLinesRegex = /^@@ -([0-9]*),?\S* \+([0-9]*),?/
 const similarityIndexRegex = /^similarity index /
 const addedFileModeRegex = /^new file mode /
 const deletedFileModeRegex = /^deleted file mode /
@@ -17,7 +17,7 @@ function parseGitPatch(patch) {
   const [, hash] = hashLine.match(hashRegex)
 
   const authorLine = lines.shift()
-  const [, authorName, authorEmail] = authorLine.match(authorRegex)
+  const [, authorName,, authorEmail] = authorLine.match(authorRegex)
 
   const dateLine = lines.shift()
   const [, date] = dateLine.split('Date: ')
