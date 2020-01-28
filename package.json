@@ -1,0 +1,30 @@
+{
+  "name": "parse-git-patch",
+  "version": "1.0.0",
+  "description": "Parse git patches with ease",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dherault/parse-git-patch.git"
+  },
+  "keywords": [
+    "git",
+    "patch",
+    "patches",
+    "diff",
+    "parse",
+    "parser"
+  ],
+  "author": "David Hérault <dherault@gmail.com> (https://github.com/dherault)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dherault/parse-git-patch/issues"
+  },
+  "homepage": "https://github.com/dherault/parse-git-patch#readme",
+  "devDependencies": {
+    "jest": "^25.1.0"
+  }
+}

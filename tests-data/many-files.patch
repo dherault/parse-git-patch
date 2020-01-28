@@ -1,0 +1,145 @@
+From a7696becf41fa2b5c9c93770e25a5cce6174d3b8 Mon Sep 17 00:00:00 2001
+From: Daniel Nalborczyk <dnalborczyk@gmail.com>
+Date: Sat, 11 Jan 2020 08:19:48 -0500
+Subject: [PATCH] Fix path/resource/resourcePath in Lambda events, fixes #868
+
+---
+ src/events/http/HttpServer.js                       |  2 ++
+ .../http/lambda-events/LambdaIntegrationEvent.js    |  5 ++++-
+ .../lambda-events/LambdaProxyIntegrationEvent.js    | 13 +++++++------
+ src/events/http/lambda-events/VelocityContext.js    |  6 ++++--
+ 4 files changed, 17 insertions(+), 9 deletions(-)
+
+diff --git a/src/events/http/HttpServer.js b/src/events/http/HttpServer.js
+index c0fbe5a..ea7135b 100644
+--- a/src/events/http/HttpServer.js
++++ b/src/events/http/HttpServer.js
+@@ -473,6 +473,7 @@ export default class HttpServer {
+               request,
+               this.#serverless.service.provider.stage,
+               requestTemplate,
++              _path,
+             ).create()
+           } catch (err) {
+             return this._reply500(
+@@ -488,6 +489,7 @@ export default class HttpServer {
+         const lambdaProxyIntegrationEvent = new LambdaProxyIntegrationEvent(
+           request,
+           this.#serverless.service.provider.stage,
++          _path,
+         )
+ 
+         event = lambdaProxyIntegrationEvent.create()
+diff --git a/src/events/http/lambda-events/LambdaIntegrationEvent.js b/src/events/http/lambda-events/LambdaIntegrationEvent.js
+index 4a9a0a4..c4a72d0 100644
+--- a/src/events/http/lambda-events/LambdaIntegrationEvent.js
++++ b/src/events/http/lambda-events/LambdaIntegrationEvent.js
+@@ -2,11 +2,13 @@ import renderVelocityTemplateObject from './renderVelocityTemplateObject.js'
+ import VelocityContext from './VelocityContext.js'
+ 
+ export default class LambdaIntegrationEvent {
++  #path = null
+   #request = null
+   #requestTemplate = null
+   #stage = null
+ 
+-  constructor(request, stage, requestTemplate) {
++  constructor(request, stage, requestTemplate, path) {
++    this.#path = path
+     this.#request = request
+     this.#requestTemplate = requestTemplate
+     this.#stage = stage
+@@ -17,6 +19,7 @@ export default class LambdaIntegrationEvent {
+       this.#request,
+       this.#stage,
+       this.#request.payload || {},
++      this.#path,
+     ).getContext()
+ 
+     const event = renderVelocityTemplateObject(
+diff --git a/src/events/http/lambda-events/LambdaProxyIntegrationEvent.js b/src/events/http/lambda-events/LambdaProxyIntegrationEvent.js
+index 12e388b..78ea853 100644
+--- a/src/events/http/lambda-events/LambdaProxyIntegrationEvent.js
++++ b/src/events/http/lambda-events/LambdaProxyIntegrationEvent.js
+@@ -16,10 +16,12 @@ const { parse } = JSON
+ // https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
+ // http://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-create-api-as-simple-proxy-for-lambda.html
+ export default class LambdaProxyIntegrationEvent {
++  #path = null
+   #request = null
+   #stage = null
+ 
+-  constructor(request, stage) {
++  constructor(request, stage, path) {
++    this.#path = path
+     this.#request = request
+     this.#stage = stage
+   }
+@@ -106,7 +108,6 @@ export default class LambdaProxyIntegrationEvent {
+     const {
+       info: { received, remoteAddress },
+       method,
+-      path,
+     } = this.#request
+ 
+     const httpMethod = method.toUpperCase()
+@@ -125,7 +126,7 @@ export default class LambdaProxyIntegrationEvent {
+       multiValueQueryStringParameters: parseMultiValueQueryStringParameters(
+         url,
+       ),
+-      path,
++      path: this.#path,
+       pathParameters: nullIfEmpty(pathParams),
+       queryStringParameters: parseQueryStringParameters(url),
+       requestContext: {
+@@ -170,16 +171,16 @@ export default class LambdaProxyIntegrationEvent {
+           userAgent: this.#request.headers['user-agent'] || '',
+           userArn: 'offlineContext_userArn',
+         },
+-        path: `/${this.#stage}${this.#request.route.path}`,
++        path: this.#request.route.path,
+         protocol: 'HTTP/1.1',
+         requestId: createUniqueId(),
+         requestTime,
+         requestTimeEpoch,
+         resourceId: 'offlineContext_resourceId',
+-        resourcePath: this.#request.route.path,
++        resourcePath: this.#path,
+         stage: this.#stage,
+       },
+-      resource: this.#request.route.path,
++      resource: this.#path,
+       stageVariables: null,
+     }
+   }
+diff --git a/src/events/http/lambda-events/VelocityContext.js b/src/events/http/lambda-events/VelocityContext.js
+index 613c83b..7a490f4 100644
+--- a/src/events/http/lambda-events/VelocityContext.js
++++ b/src/events/http/lambda-events/VelocityContext.js
+@@ -36,11 +36,13 @@ function escapeJavaScript(x) {
+   http://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-mapping-template-reference.html
+ */
+ export default class VelocityContext {
++  #path = null
+   #payload = null
+   #request = null
+   #stage = null
+ 
+-  constructor(request, stage, payload) {
++  constructor(request, stage, payload, path) {
++    this.#path = path
+     this.#payload = payload
+     this.#request = request
+     this.#stage = stage
+@@ -106,7 +108,7 @@ export default class VelocityContext {
+         },
+         requestId: createUniqueId(),
+         resourceId: 'offlineContext_resourceId',
+-        resourcePath: this.#request.route.path,
++        resourcePath: this.#path,
+         stage: this.#stage,
+       },
+       input: {
+-- 
+2.21.1 (Apple Git-122.3)
+

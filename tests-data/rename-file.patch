@@ -1,0 +1,17 @@
+From 68ec4bbde5244929afee1b39e09dced6fad1a725 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?David=20H=C3=A9rault?= <dherault@gmail.com>
+Date: Mon, 27 Jan 2020 17:35:01 +0100
+Subject: [PATCH] Rename README
+
+---
+ README.md => README.mdx | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename README.md => README.mdx (100%)
+
+diff --git a/README.md b/README.mdx
+similarity index 100%
+rename from README.md
+rename to README.mdx
+-- 
+2.21.1 (Apple Git-122.3)
+
