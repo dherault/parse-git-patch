@@ -1,3 +1,4 @@
+/* eslint-env jest */
 const fs = require('fs')
 const path = require('path')
 
@@ -160,6 +161,7 @@ test('parses a complex patch', () => {
           },
           {
             added: false,
+            // eslint-disable-next-line
             line: '        path: `/${this.#stage}${this.#request.route.path}`,',
             lineNumber: 174,
           },
@@ -316,5 +318,5 @@ test('parses a add and delete patch', () => {
 })
 
 test('parses a complex patch', () => {
-  const result = parse(data['complex.patch'])
+  parse(data['complex.patch'])
 })

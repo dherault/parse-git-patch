@@ -31,7 +31,7 @@ function parseGitPatch(patch) {
     authorEmail,
     date,
     message,
-    files: []
+    files: [],
   }
 
   splitIntoParts(lines, 'diff --git').forEach(diff => {
@@ -44,7 +44,7 @@ function parseGitPatch(patch) {
       deleted: false,
       beforeName: a,
       afterName: b,
-      modifiedLines: []
+      modifiedLines: [],
     }
 
     parsedPatch.files.push(fileData)
@@ -67,14 +67,14 @@ function parseGitPatch(patch) {
       let nB = parseInt(b)
 
       lines.forEach(line => {
-        nA++;
-        nB++;
+        nA++
+        nB++
 
         if (line.startsWith('-- ')) {
           return
         }
-        else if (line.startsWith('+')) {
-          nA--;
+        if (line.startsWith('+')) {
+          nA--
 
           fileData.modifiedLines.push({
             added: true,
@@ -83,7 +83,7 @@ function parseGitPatch(patch) {
           })
         }
         else if (line.startsWith('-')) {
-          nB--;
+          nB--
 
           fileData.modifiedLines.push({
             added: false,

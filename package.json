@@ -1,6 +1,6 @@
 {
   "name": "parse-git-patch",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Parse git patches with ease",
   "main": "index.js",
   "files": [
@@ -28,6 +28,8 @@
   },
   "homepage": "https://github.com/dherault/parse-git-patch#readme",
   "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-dherault": "^1.0.8",
     "jest": "^25.1.0"
   }
 }
