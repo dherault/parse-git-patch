@@ -1,6 +1,6 @@
 {
   "name": "parse-git-patch",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Parse git patches with ease",
   "main": "index.js",
   "files": [
