@@ -42,8 +42,8 @@ function parseGitPatch(patch) {
     const fileData = {
       added: false,
       deleted: false,
-      beforeName: a,
-      afterName: b,
+      beforeName: a.trim(),
+      afterName: b.trim(),
       modifiedLines: [],
     }
 
