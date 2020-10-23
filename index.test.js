@@ -16,44 +16,52 @@ test('is a function', () => {
 })
 
 test('parses a simple patch', () => {
-  const result = parse(data['one-file.patch'])
+  const patchResult = parse(data['one-file.patch'])
+  const diffResult = parse(data['one-file-diff.patch'])
+  expect.assertions(2)
 
-  expect(result).toEqual({
+  const expectResultFiles = [
+    {
+      added: false,
+      deleted: false,
+      beforeName: 'src/events/http/HttpServer.js',
+      afterName: 'src/events/http/HttpServer.js',
+      modifiedLines: [
+        {
+          line: '        if (result && typeof result.body !== \'undefined\') {',
+          lineNumber: 774,
+          added: false,
+        },
+        {
+          line: '        if (typeof result === \'string\') {',
+          lineNumber: 774,
+          added: true,
+        },
+        {
+          line: '          response.source = JSON.stringify(result)',
+          lineNumber: 775,
+          added: true,
+        },
+        {
+          line: '        } else if (result && typeof result.body !== \'undefined\') {',
+          lineNumber: 776,
+          added: true,
+        },
+      ],
+    },
+  ]
+
+  expect(patchResult).toEqual({
     hash: '0f6f88c98fff3afa0289f46bf4eab469f45eebc6',
     date: 'Sat, 25 Jan 2020 19:21:35 +0200',
     message: '[PATCH] JSON stringify string responses',
     authorEmail: '13507001+arnas@users.noreply.github.com',
     authorName: 'Arnas Gecas',
-    files: [
-      {
-        added: false,
-        deleted: false,
-        beforeName: 'src/events/http/HttpServer.js',
-        afterName: 'src/events/http/HttpServer.js',
-        modifiedLines: [
-          {
-            line: '        if (result && typeof result.body !== \'undefined\') {',
-            lineNumber: 774,
-            added: false,
-          },
-          {
-            line: '        if (typeof result === \'string\') {',
-            lineNumber: 774,
-            added: true,
-          },
-          {
-            line: '          response.source = JSON.stringify(result)',
-            lineNumber: 775,
-            added: true,
-          },
-          {
-            line: '        } else if (result && typeof result.body !== \'undefined\') {',
-            lineNumber: 776,
-            added: true,
-          },
-        ],
-      },
-    ],
+    files: expectResultFiles,
+  })
+
+  expect(diffResult).toEqual({
+    files: expectResultFiles,
   })
 })
 
