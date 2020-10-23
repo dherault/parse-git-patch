@@ -1,0 +1,18 @@
+diff --git a/src/events/http/HttpServer.js b/src/events/http/HttpServer.js
+index 20bf454..c0fdafb 100644
+--- a/src/events/http/HttpServer.js
++++ b/src/events/http/HttpServer.js
+@@ -770,7 +770,9 @@ export default class HttpServer {
+           override: false,
+         })
+ 
+-        if (result && typeof result.body !== 'undefined') {
++        if (typeof result === 'string') {
++          response.source = JSON.stringify(result)
++        } else if (result && typeof result.body !== 'undefined') {
+           if (result.isBase64Encoded) {
+             response.encoding = 'binary'
+             response.source = Buffer.from(result.body, 'base64')
+-- 
+2.21.1 (Apple Git-122.3)
+
