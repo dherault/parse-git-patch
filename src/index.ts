@@ -6,7 +6,30 @@ const similarityIndexRegex = /^similarity index /
 const addedFileModeRegex = /^new file mode /
 const deletedFileModeRegex = /^deleted file mode /
 
-function parseGitPatch(patch) {
+export type ParsedPatchModifiedLineType = {
+  added: boolean
+  lineNumber: number
+  line: string
+}
+
+export type ParsedPatchFileDataType = {
+  added: boolean
+  deleted: boolean
+  beforeName: string
+  afterName: string
+  modifiedLines: ParsedPatchModifiedLineType[]
+}
+
+export type ParsedPatchType = {
+  hash: string
+  authorName: string
+  authorEmail: string
+  date: string
+  message: string
+  files: ParsedPatchFileDataType[]
+}
+
+function parseGitPatch(patch: string) {
   if (typeof patch !== 'string') {
     throw new Error('Expected first argument (patch) to be a string')
   }
@@ -14,18 +37,37 @@ function parseGitPatch(patch) {
   const lines = patch.split('\n')
 
   const hashLine = lines.shift()
-  const [, hash] = hashLine.match(hashRegex)
 
+  if (!hashLine) return null
+
+  const match1 = hashLine.match(hashRegex)
+
+  if (!match1) return null
+
+  const [, hash] = match1
   const authorLine = lines.shift()
-  const [, authorName,, authorEmail] = authorLine.match(authorRegex)
+
+  if (!authorLine) return null
+
+  const match2 = authorLine.match(authorRegex)
+
+  if (!match2) return null
+
+  const [, authorName,, authorEmail] = match2
 
   const dateLine = lines.shift()
+
+  if (!dateLine) return null
+
   const [, date] = dateLine.split('Date: ')
 
   const messageLine = lines.shift()
+
+  if (!messageLine) return null
+
   const [, message] = messageLine.split('Subject: ')
 
-  const parsedPatch = {
+  const parsedPatch: ParsedPatchType = {
     hash,
     authorName,
     authorEmail,
@@ -36,10 +78,19 @@ function parseGitPatch(patch) {
 
   splitIntoParts(lines, 'diff --git').forEach(diff => {
     const fileNameLine = diff.shift()
-    const [, a, b] = fileNameLine.match(fileNameRegex)
+
+    if (!fileNameLine) return
+
+    const match3 = fileNameLine.match(fileNameRegex)
+
+    if (!match3) return
+
+    const [, a, b] = match3
     const metaLine = diff.shift()
 
-    const fileData = {
+    if (!metaLine) return
+
+    const fileData: ParsedPatchFileDataType = {
       added: false,
       deleted: false,
       beforeName: a.trim(),
@@ -61,7 +112,14 @@ function parseGitPatch(patch) {
 
     splitIntoParts(diff, '@@ ').forEach(lines => {
       const fileLinesLine = lines.shift()
-      const [, a, b] = fileLinesLine.match(fileLinesRegex)
+
+      if (!fileLinesLine) return
+
+      const match4 = fileLinesLine.match(fileLinesRegex)
+
+      if (!match4) return
+
+      const [, a, b] = match4
 
       let nA = parseInt(a)
       let nB = parseInt(b)
@@ -98,9 +156,9 @@ function parseGitPatch(patch) {
   return parsedPatch
 }
 
-function splitIntoParts(lines, separator) {
+function splitIntoParts(lines: string[], separator: string) {
   const parts = []
-  let currentPart
+  let currentPart: string[] | undefined
 
   lines.forEach(line => {
     if (line.startsWith(separator)) {
@@ -122,4 +180,4 @@ function splitIntoParts(lines, separator) {
   return parts
 }
 
-module.exports = parseGitPatch
+export default parseGitPatch
