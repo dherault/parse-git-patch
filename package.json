@@ -4,9 +4,6 @@
   "description": "Parse git patches with ease",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.js",
-  "files": [
-    "index.js"
-  ],
   "scripts": {
     "test": "jest --coverage",
     "build": "tsc --declaration",
