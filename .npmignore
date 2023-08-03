@@ -4,3 +4,4 @@ jest.config.js
 .vscode
 test
 src
+coverage
