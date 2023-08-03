@@ -1,11 +1,10 @@
-/* eslint-env jest */
-const fs = require('fs')
-const path = require('path')
+import fs from 'fs'
+import path from 'path'
 
-const parse = require('./index')
+import parse from '../src'
 
 const dataLocation = path.resolve(__dirname, 'tests-data')
-const data = {}
+const data: Record<string, string> = {}
 
 fs.readdirSync(dataLocation).forEach(fileName => {
   data[fileName] = fs.readFileSync(path.resolve(dataLocation, fileName), 'utf-8')
