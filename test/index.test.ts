@@ -29,22 +29,22 @@ test('parses a simple patch', () => {
       modifiedLines: [
         {
           line: '        if (result && typeof result.body !== \'undefined\') {',
-          lineNumber: 774,
+          lineNumber: 773,
           added: false,
         },
         {
           line: '        if (typeof result === \'string\') {',
-          lineNumber: 774,
+          lineNumber: 773,
           added: true,
         },
         {
           line: '          response.source = JSON.stringify(result)',
-          lineNumber: 775,
+          lineNumber: 774,
           added: true,
         },
         {
           line: '        } else if (result && typeof result.body !== \'undefined\') {',
-          lineNumber: 776,
+          lineNumber: 775,
           added: true,
         },
       ],
@@ -84,12 +84,12 @@ test('parses a complex patch', () => {
           {
             added: true,
             line: '              _path,',
-            lineNumber: 477,
+            lineNumber: 476,
           },
           {
             added: true,
             line: '          _path,',
-            lineNumber: 493,
+            lineNumber: 492,
           },
         ],
       },
@@ -102,27 +102,27 @@ test('parses a complex patch', () => {
           {
             added: true,
             line: '  #path = null',
-            lineNumber: 6,
+            lineNumber: 5,
           },
           {
             added: false,
             line: '  constructor(request, stage, requestTemplate) {',
-            lineNumber: 10,
+            lineNumber: 9,
           },
           {
             added: true,
             line: '  constructor(request, stage, requestTemplate, path) {',
-            lineNumber: 11,
+            lineNumber: 10,
           },
           {
             added: true,
             line: '    this.#path = path',
-            lineNumber: 12,
+            lineNumber: 11,
           },
           {
             added: true,
             line: '      this.#path,',
-            lineNumber: 23,
+            lineNumber: 22,
           },
         ],
       },
@@ -135,68 +135,68 @@ test('parses a complex patch', () => {
           {
             added: true,
             line: '  #path = null',
-            lineNumber: 20,
+            lineNumber: 19,
           },
           {
             added: false,
             line: '  constructor(request, stage) {',
-            lineNumber: 23,
+            lineNumber: 22,
           },
           {
             added: true,
             line: '  constructor(request, stage, path) {',
-            lineNumber: 24,
+            lineNumber: 23,
           },
           {
             added: true,
             line: '    this.#path = path',
-            lineNumber: 25,
+            lineNumber: 24,
           },
           {
             added: false,
             line: '      path,',
-            lineNumber: 110,
+            lineNumber: 109,
           },
           {
             added: false,
             line: '      path,',
-            lineNumber: 129,
+            lineNumber: 128,
           },
           {
             added: true,
             line: '      path: this.#path,',
-            lineNumber: 130,
+            lineNumber: 129,
           },
           {
             added: false,
             // eslint-disable-next-line
             line: '        path: `/${this.#stage}${this.#request.route.path}`,',
-            lineNumber: 174,
+            lineNumber: 173,
           },
           {
             added: true,
             line: '        path: this.#request.route.path,',
-            lineNumber: 175,
+            lineNumber: 174,
           },
           {
             added: false,
             line: '        resourcePath: this.#request.route.path,',
-            lineNumber: 180,
+            lineNumber: 179,
           },
           {
             added: true,
             line: '        resourcePath: this.#path,',
-            lineNumber: 181,
+            lineNumber: 180,
           },
           {
             added: false,
             line: '      resource: this.#request.route.path,',
-            lineNumber: 183,
+            lineNumber: 182,
           },
           {
             added: true,
             line: '      resource: this.#path,',
-            lineNumber: 184,
+            lineNumber: 183,
           },
         ],
       },
@@ -209,37 +209,36 @@ test('parses a complex patch', () => {
           {
             added: true,
             line: '  #path = null',
-            lineNumber: 40,
+            lineNumber: 39,
           },
           {
             added: false,
             line: '  constructor(request, stage, payload) {',
-            lineNumber: 44,
+            lineNumber: 43,
           },
           {
             added: true,
             line: '  constructor(request, stage, payload, path) {',
-            lineNumber: 45,
+            lineNumber: 44,
           },
           {
             added: true,
             line: '    this.#path = path',
-            lineNumber: 46,
+            lineNumber: 45,
           },
           {
             added: false,
             line: '        resourcePath: this.#request.route.path,',
-            lineNumber: 110,
+            lineNumber: 109,
           },
           {
             added: true,
             line: '        resourcePath: this.#path,',
-            lineNumber: 112,
+            lineNumber: 111,
           },
         ],
       },
     ],
-
   })
 })
 
@@ -284,17 +283,17 @@ test('parses a add and delete patch', () => {
           {
             added: false,
             line: '# stars-in-motion',
-            lineNumber: 2,
+            lineNumber: 1,
           },
           {
             added: false,
             line: '',
-            lineNumber: 3,
+            lineNumber: 2,
           },
           {
             added: false,
             line: 'A canvas full of stars',
-            lineNumber: 4,
+            lineNumber: 3,
           },
         ],
       },
@@ -307,17 +306,17 @@ test('parses a add and delete patch', () => {
           {
             added: true,
             line: '# stars-in-motion',
-            lineNumber: 2,
+            lineNumber: 1,
           },
           {
             added: true,
             line: '',
-            lineNumber: 3,
+            lineNumber: 2,
           },
           {
             added: true,
             line: 'A canvas full of stars.',
-            lineNumber: 4,
+            lineNumber: 3,
           },
         ],
       },
@@ -325,6 +324,6 @@ test('parses a add and delete patch', () => {
   })
 })
 
-test('parses a complex patch', () => {
+test('parses a complex patch 2', () => {
   parse(data['complex.patch'])
 })

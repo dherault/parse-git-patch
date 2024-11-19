@@ -90,8 +90,8 @@ function parseGitPatch(patch: string) {
 
       const [, a, b] = match4
 
-      let nA = parseInt(a)
-      let nB = parseInt(b)
+      let nA = parseInt(a) - 1
+      let nB = parseInt(b) - 1
 
       lines.forEach(line => {
         nA++
@@ -106,7 +106,7 @@ function parseGitPatch(patch: string) {
           fileData.modifiedLines.push({
             added: true,
             lineNumber: nB,
-            line: line.substr(1),
+            line: line.substring(1),
           })
         }
         else if (line.startsWith('-')) {
@@ -115,7 +115,7 @@ function parseGitPatch(patch: string) {
           fileData.modifiedLines.push({
             added: false,
             lineNumber: nA,
-            line: line.substr(1),
+            line: line.substring(1),
           })
         }
       })

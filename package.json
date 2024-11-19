@@ -1,14 +1,9 @@
 {
   "name": "parse-git-patch",
-  "version": "1.3.0",
+  "version": "2.0.0",
   "description": "Parse git patches with ease",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.js",
-  "scripts": {
-    "test": "jest --coverage",
-    "build": "tsc --declaration",
-    "prepublishOnly": "npm run build"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dherault/parse-git-patch.git"
@@ -27,6 +22,12 @@
     "url": "https://github.com/dherault/parse-git-patch/issues"
   },
   "homepage": "https://github.com/dherault/parse-git-patch#readme",
+  "scripts": {
+    "lint": "tsc --noEmit && eslint ./src --ext ts --report-unused-disable-directives --max-warnings 0",
+    "test": "jest --coverage",
+    "build": "tsc --declaration",
+    "prepublishOnly": "npm run build"
+  },
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "@types/node": "^22.9.0",
