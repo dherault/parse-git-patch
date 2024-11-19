@@ -21,11 +21,11 @@ export type ParsedPatchFileDataType = {
 }
 
 export type ParsedPatchType = {
-  hash: string
-  authorName: string
-  authorEmail: string
-  date: string
-  message: string
+  hash?: string
+  authorName?: string
+  authorEmail?: string
+  date?: string
+  message?: string
   files: ParsedPatchFileDataType[]
 }
 
@@ -40,7 +40,7 @@ function parseGitPatch(patch: string) {
 
   if (!gitPatchMetaInfo) return null
 
-  const parsedPatch = {
+  const parsedPatch: ParsedPatchType = {
     ...gitPatchMetaInfo,
     files: [] as ParsedPatchFileDataType[],
   }
@@ -149,7 +149,7 @@ function splitMetaInfo(patch: string, lines: string[]) {
 
   if (!match2) return null
 
-  const [, authorName,, authorEmail] = match2
+  const [, authorName, , authorEmail] = match2
 
   const dateLine = lines.shift()
 

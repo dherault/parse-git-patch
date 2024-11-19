@@ -17,6 +17,7 @@ test('is a function', () => {
 test('parses a simple patch', () => {
   const patchResult = parse(data['one-file.patch'])
   const diffResult = parse(data['one-file-diff.patch'])
+
   expect.assertions(2)
 
   const expectResultFiles = [
