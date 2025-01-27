@@ -14,6 +14,12 @@ test('is a function', () => {
   expect(typeof parse).toBe('function')
 })
 
+test('is a function that accepts a string', () => {
+  expect(() => parse('')).not.toThrow()
+  // @ts-ignore
+  expect(() => parse(1)).toThrow()
+})
+
 test('parses a simple patch', () => {
   const patchResult = parse(data['one-file.patch'])
   const diffResult = parse(data['one-file-diff.patch'])
@@ -317,6 +323,45 @@ test('parses a add and delete patch', () => {
             added: true,
             line: 'A canvas full of stars.',
             lineNumber: 3,
+          },
+        ],
+      },
+    ],
+  })
+})
+
+test('parses a add and delete patch with hyphen', () => {
+  const result = parse(data['hyphen.patch'])
+
+  console.log('result', JSON.stringify(parse(data['hyphen.patch']), null, 2))
+
+  expect(result).toEqual({
+    hash: '89afcd42fb6f2602fbcd03d6e5573b1859347787',
+    authorName: '"Restyled.io"',
+    authorEmail: 'commits@restyled.io',
+    date: 'Fri, 17 Jan 2025 18:09:56 +0000',
+    message: '[PATCH 2/2] Restyled by prettier-yaml',
+    files: [
+      {
+        added: false,
+        deleted: false,
+        beforeName: 'hlint/.hlint.yaml',
+        afterName: 'hlint/.hlint.yaml',
+        modifiedLines: [
+          {
+            added: false,
+            lineNumber: 27,
+            line: '',
+          },
+          {
+            added: false,
+            lineNumber: 29,
+            line: '- error: {name: ""}',
+          },
+          {
+            added: true,
+            lineNumber: 28,
+            line: '- error: { name: "" }',
           },
         ],
       },

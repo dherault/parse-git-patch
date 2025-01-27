@@ -97,7 +97,7 @@ function parseGitPatch(patch: string) {
         nA++
         nB++
 
-        if (line.startsWith('-- ')) {
+        if (line === '-- ') {
           return
         }
         if (line.startsWith('+')) {

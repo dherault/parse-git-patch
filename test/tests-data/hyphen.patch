@@ -1,0 +1,21 @@
+From 89afcd42fb6f2602fbcd03d6e5573b1859347787 Mon Sep 17 00:00:00 2001
+From: "Restyled.io" <commits@restyled.io>
+Date: Fri, 17 Jan 2025 18:09:56 +0000
+Subject: [PATCH 2/2] Restyled by prettier-yaml
+
+---
+ hlint/.hlint.yaml | 155 +++++++++++++++++++++++-----------------------
+ 1 file changed, 77 insertions(+), 78 deletions(-)
+
+diff --git a/hlint/.hlint.yaml b/hlint/.hlint.yaml
+index 1e09829..19356c5 100644
+--- a/hlint/.hlint.yaml
++++ b/hlint/.hlint.yaml
+@@ -24,34 +24,33 @@
+ # for ad hoc ways to suppress hlint.
+
+ ---
+-
+ # By default, everything is an error
+-- error: {name: ""}
++- error: { name: "" }
