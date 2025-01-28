@@ -97,7 +97,7 @@ function parseGitPatch(patch: string) {
         nA++
         nB++
 
-        if (line === '-- ') {
+        if (line === '-- ' || line === '--') {
           return
         }
         if (line.startsWith('+')) {
@@ -141,7 +141,12 @@ function splitMetaInfo(patch: string, lines: string[]) {
 
   const [, hash] = match1
 
-  const authorLine = lines.shift()
+  let authorLine = lines.shift()
+
+  // Parsing of long names
+  while (lines[0].startsWith(' ')) {
+    authorLine += ` ${lines.shift()}`
+  }
 
   if (!authorLine) return null
 
@@ -165,7 +170,7 @@ function splitMetaInfo(patch: string, lines: string[]) {
 
   return {
     hash,
-    authorName,
+    authorName: formatAuthorName(authorName),
     authorEmail,
     date,
     message,
@@ -194,6 +199,10 @@ function splitIntoParts(lines: string[], separator: string) {
   }
 
   return parts
+}
+
+function formatAuthorName(name: string) {
+  return (name.startsWith('"') && name.endsWith('"') ? name.slice(1, -1) : name).trim()
 }
 
 export default parseGitPatch

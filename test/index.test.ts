@@ -333,11 +333,9 @@ test('parses a add and delete patch', () => {
 test('parses a add and delete patch with hyphen', () => {
   const result = parse(data['hyphen.patch'])
 
-  console.log('result', JSON.stringify(parse(data['hyphen.patch']), null, 2))
-
   expect(result).toEqual({
     hash: '89afcd42fb6f2602fbcd03d6e5573b1859347787',
-    authorName: '"Restyled.io"',
+    authorName: 'Restyled.io',
     authorEmail: 'commits@restyled.io',
     date: 'Fri, 17 Jan 2025 18:09:56 +0000',
     message: '[PATCH 2/2] Restyled by prettier-yaml',
@@ -371,4 +369,46 @@ test('parses a add and delete patch with hyphen', () => {
 
 test('parses a complex patch 2', () => {
   parse(data['complex.patch'])
+})
+
+test('parses a long author name', () => {
+  const result = parse(data['one-file-author-line-break.patch'])
+
+  expect(result).toEqual({
+    hash: '0f6f88c98fff3afa0289f46bf4eab469f45eebc6',
+    date: 'Sat, 25 Jan 2020 19:21:35 +0200',
+    message: '[PATCH] JSON stringify string responses',
+    authorEmail: 'someone@example.com',
+    authorName: 'Really long name spanning lots of characters',
+    files: [
+      {
+        added: false,
+        deleted: false,
+        beforeName: 'src/events/http/HttpServer.js',
+        afterName: 'src/events/http/HttpServer.js',
+        modifiedLines: [
+          {
+            line: '        if (result && typeof result.body !== \'undefined\') {',
+            lineNumber: 773,
+            added: false,
+          },
+          {
+            line: '        if (typeof result === \'string\') {',
+            lineNumber: 773,
+            added: true,
+          },
+          {
+            line: '          response.source = JSON.stringify(result)',
+            lineNumber: 774,
+            added: true,
+          },
+          {
+            line: '        } else if (result && typeof result.body !== \'undefined\') {',
+            lineNumber: 775,
+            added: true,
+          },
+        ],
+      },
+    ],
+  })
 })
