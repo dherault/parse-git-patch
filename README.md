@@ -2,6 +2,8 @@
 
 *Parse git patches with ease*
 
+This NPM package allows you to parse git patches and diffs into an human and machine-readable object.
+
 ## Installation
 
 `npm i parse-git-patch`
