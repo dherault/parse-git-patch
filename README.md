@@ -60,22 +60,22 @@ const parsedPatch = parseGitPatch(patch)
       modifiedLines: [
         {
           line: '        if (result && typeof result.body !== \'undefined\') {',
-          lineNumber: 774,
+          lineNumber: 773,
           added: false,
         },
         {
           line: '        if (typeof result === \'string\') {',
-          lineNumber: 774,
+          lineNumber: 773,
           added: true,
         },
         {
           line: '          response.source = JSON.stringify(result)',
-          lineNumber: 775,
+          lineNumber: 774,
           added: true,
         },
         {
           line: '        } else if (result && typeof result.body !== \'undefined\') {',
-          lineNumber: 776,
+          lineNumber: 775,
           added: true,
         },
       ],
